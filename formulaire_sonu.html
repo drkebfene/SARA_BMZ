@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Évaluation Fonctionnalité SONU</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f2f2f2; padding: 20px; }
+    .header { text-align: center; margin-bottom: 20px; }
+    .header img { height: 50px; margin: 0 20px; vertical-align: middle; }
+    form { background: white; padding: 20px; border-radius: 10px; max-width: 700px; margin: auto; }
+    label { display: block; margin-top: 15px; }
+    input, textarea, button { width: 100%; padding: 10px; margin-top: 5px; }
+    button { background-color: #2980b9; color: white; border: none; cursor: pointer; }
+    button:hover { background-color: #1f5f8b; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/BMZ_Logo.svg/320px-BMZ_Logo.svg.png" alt="BMZ">
+    <strong>Évaluation Fonctionnalité SONU</strong>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/UNICEF_Logo.png/320px-UNICEF_Logo.png" alt="UNICEF">
+  </div>
+
+  <form id="formulaire">
+    <input type="hidden" name="horodatage" id="horodatage">
+
+    <label>Établissement de santé
+      <input type="text" name="etablissement" required>
+    </label>
+    <label>Coordonnées GPS
+      <input type="text" name="gps" required>
+    </label>
+    <label>District Sanitaire
+      <input type="text" name="district" >
+    </label>
+    <label>Fonctionnalité SONU
+      <input type="text" name="fonctionnalite" >
+    </label>
+    <label>URL du script Google Apps / Google Apps Script URL:
+      <input type="text" id="scriptURL" placeholder="https://script.google.com/macros/s/.../exec" required>
+    </label>
+    <button type="submit">Soumettre / Submit</button>
+  </form>
+  <div id="message" style="margin-top:20px;"></div>
+
+  <script>
+    document.getElementById("formulaire").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const scriptURL = document.getElementById("scriptURL").value;
+      const formData = new FormData(form);
+      formData.set("horodatage", new Date().toISOString());
+      const data = {};
+      for (const [key, value] of formData.entries()) {
+        data[key] = value;
+      }
+      fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        document.getElementById("message").innerText = "✅ Données soumises avec succès / Data submitted successfully.";
+        form.reset();
+      })
+      .catch(error => {
+        document.getElementById("message").innerText = "❌ Échec de l’envoi / Submission failed.";
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Formulaire Collecte - Cartographie BMZ</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; background-color: #f9f9f9; }
+    h2 { color: #2c3e50; }
+    label { display: block; margin-top: 15px; }
+    input, textarea, button { width: 100%; padding: 8px; margin-top: 5px; }
+    button { background-color: #27ae60; color: white; border: none; cursor: pointer; }
+    button:hover { background-color: #219150; }
+    .result { margin-top: 20px; background: #fff; padding: 15px; border: 1px solid #ccc; }
+  </style>
+  <script>
+    function afficherResultats() {
+      const site = document.getElementById("site_name").value;
+      const gps = document.getElementById("gps_site").value;
+      const canton = document.getElementById("canton").value;
+      const obs = document.getElementById("observation").value;
+      const resultats = `<strong>Site :</strong> ${site}<br>
+                         <strong>Coordonnées GPS :</strong> ${gps}<br>
+                         <strong>Canton :</strong> ${canton}<br>
+                         <strong>Observations :</strong> ${obs}`;
+      document.getElementById("visualisation").innerHTML = resultats;
+    }
+  </script>
+</head>
+<body>
+  <h2>🗺️ Formulaire Collecte - Cartographie BMZ</h2>
+  <form onsubmit="event.preventDefault(); afficherResultats();">
+    <label>Nom du site / village :
+      <input type="text" id="site_name" required>
+    </label>
+    <label>Coordonnées GPS du village :
+      <input type="text" id="gps_site" required>
+    </label>
+    <label>Canton / Commune :
+      <input type="text" id="canton" required>
+    </label>
+    <label>Observations / Particularités :
+      <textarea id="observation" rows="4"></textarea>
+    </label>
+    <button type="submit">Soumettre</button>
+  </form>
+  <div id="visualisation" class="result"></div>
+</body>
+</html>

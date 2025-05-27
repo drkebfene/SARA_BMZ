@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Cartographie BMZ - Formulaire</title>
+  <script>
+    function afficherResultats() {
+      const site = document.getElementById("site_name").value;
+      const gps = document.getElementById("gps_site").value;
+      const canton = document.getElementById("canton").value;
+      const resultats = `🧭 <strong>Site :</strong> ${site}<br>
+                         🌐 <strong>Coordonnées GPS :</strong> ${gps}<br>
+                         🏘️ <strong>Canton :</strong> ${canton}`;
+      document.getElementById("visualisation").innerHTML = resultats;
+    }
+  </script>
+</head>
+<body>
+  <h2>🗺️ Formulaire de Cartographie BMZ</h2>
+  <form onsubmit="event.preventDefault(); afficherResultats();">
+    <label>Nom du site / village :<br>
+      <input type="text" id="site_name" required>
+    </label><br><br>
+    <label>Coordonnées GPS du village :<br>
+      <input type="text" id="gps_site" required>
+    </label><br><br>
+    <label>Canton / Commune :<br>
+      <input type="text" id="canton" required>
+    </label><br><br>
+    <button type="submit">Soumettre</button>
+  </form>
+  <hr>
+  <div id="visualisation" style="padding:10px; border:1px solid #ccc;"></div>
+</body>
+</html>

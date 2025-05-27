@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulaire connecté à Google Sheet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {{ font-family: Arial, sans-serif; padding: 20px; background-color: #f2f2f2; }}
+    h2 {{ color: #2c3e50; }}
+    form {{ background: white; padding: 20px; border-radius: 8px; }}
+    input, textarea, button {{ width: 100%; padding: 10px; margin-top: 10px; }}
+    button {{ background-color: #27ae60; color: white; border: none; cursor: pointer; }}
+    button:hover {{ background-color: #219150; }}
+  </style>
+</head>
+<body>
+  <h2>📝 Formulaire - Collecte Web avec Google Sheet</h2>
+  <form id="data-form">
+    <label>Nom du site ou village :
+      <input type="text" name="site_name" required>
+    </label>
+    <label>Coordonnées GPS :
+      <input type="text" name="gps_site" required>
+    </label>
+    <label>Canton / Commune :
+      <input type="text" name="canton" required>
+    </label>
+    <label>Observation :
+      <textarea name="observation" rows="3"></textarea>
+    </label>
+    <label>URL de votre script Google Apps Script :
+      <input type="text" id="scriptURL" placeholder="https://script.google.com/macros/s/.../exec" required>
+    </label>
+    <button type="submit">Envoyer</button>
+  </form>
+  <div id="message" style="margin-top:20px;"></div>
+
+  <script>
+    document.getElementById("data-form").addEventListener("submit", function(e) {{
+      e.preventDefault();
+      const form = e.target;
+      const scriptURL = document.getElementById("scriptURL").value;
+      const data = {{
+        site_name: form.site_name.value,
+        gps_site: form.gps_site.value,
+        canton: form.canton.value,
+        observation: form.observation.value
+      }};
+      fetch(scriptURL, {{
+        method: "POST",
+        body: JSON.stringify(data)
+      }})
+      .then(response => {{
+        document.getElementById("message").innerText = "✅ Données soumises avec succès.";
+        form.reset();
+      }})
+      .catch(error => {{
+        document.getElementById("message").innerText = "❌ Échec de l’envoi. Vérifiez l’URL du script.";
+      }});
+    }});
+  </script>
+</body>
+</html>
